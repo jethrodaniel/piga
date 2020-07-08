@@ -1,3 +1,22 @@
+# Parser for Piga's own syntax.
+#
+# Piga is a Parsing Expression Grammar (PEG) parser generator.
+#
+# == directives
+#
+# A directive name starts with a `%`, and s followed by one of more words.
+#
+# - `%name` - sets the generated parser's class name
+#
+# == rules
+#
+# Rules are defined in a similar syntax to yacc/bison, but the `|` represents
+# ordered choice.
+#
+# == usage
+#
+#     $ bundle exec exe/piga lib/piga/grammar.piga > lib/piga/parser.rb
+
 %name P;
 
 grammar
@@ -48,4 +67,4 @@ item
   | NAME      { Piga::Grammar::AST::Item.new(val[0].value) }
   ;
 sps: sp* { val };
-sp: SPACE | NEWLINE;
+sp: SPACE | NEWLINE | COMMENT;

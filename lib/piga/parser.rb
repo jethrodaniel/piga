@@ -576,6 +576,16 @@ class P < Piga::Parser
       val = []
       reset loc
     end
+
+    if __64 = consume(:COMMENT)
+      val << __64
+      return begin
+               val[0]
+             end
+    else
+      val = []
+      reset loc
+    end
     nil
   end
 end
