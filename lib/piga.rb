@@ -200,7 +200,7 @@ module Piga
         io.puts
         io.puts 'require "ast"'
         io.puts 'require "piga"'
-        io.puts 'require "piga/lexer.rex.rb"'
+        io.puts 'require "piga/lexer"'
         io.puts
         io.puts "class #{@class_name} < Piga::Parser"
         io.puts "  include AST::Sexp"

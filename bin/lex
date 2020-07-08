@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "piga/lexer.rex.rb"
+require "piga/lexer"
 
 # todo: get input from stdin
 file = ARGV[0]

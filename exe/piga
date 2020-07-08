@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "piga/parser"
-require "piga/lexer.rex.rb"
+require "piga/lexer"
 
 # To bootstrap, make incremental changes to each parser, then create new
 # instances.
