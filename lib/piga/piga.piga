@@ -24,7 +24,7 @@
 #     $ bundle exec exe/piga lib/piga/piga.piga > lib/piga/parser.rb
 #     $ bundle exec ruby lib/piga/parser.rb
 
-%name P;
+%name Piga::Grammar::Parser;
 
 grammar
   : sp* directives sp* rules

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "piga/parser"
+require "piga/lexer.rex.rb"
 
 # To bootstrap, make incremental changes to each parser, then create new
 # instances.
@@ -26,8 +27,9 @@ require "piga/parser"
 file = ARGV[0]
 abort "no grammar file supplied" unless file && File.file?(file)
 
-lexer = Piga::Grammar::Lexer.new(File.read(file))
-Piga::Grammar::Parser = P if Object.const_defined?(:P)
+lexer = Piga::Grammar::Lexer.new
+lexer.instance_eval { scan_setup File.read(file) }
+
 parser = Piga::Grammar::Parser.new lexer
 grammar = parser.parse
 

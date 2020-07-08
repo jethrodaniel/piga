@@ -30,8 +30,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.5"
 
+  spec.add_dependency "ast", "~> 2.4"
+
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "rexical", "~> 1.0"
 
   if RUBY_ENGINE == "ruby"
     spec.add_development_dependency "pry"
