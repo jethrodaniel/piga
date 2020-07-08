@@ -334,10 +334,14 @@ module Piga
   module Grammar
     class Lexer < Lex::Lexer
       NAME_STARTS = ["a".."z", "A".."Z", "_"]
+      NON_WORD_CHARS = [" ", "\t", "\r\n", ";", "{", "}", "[", "]"]
+
       def next_token
         reset_and_set_start
 
-        letter = -> c { ("a".."z").cover?(c) || ("A".."Z").cover?(c) || c == "_" }
+        letter = -> c do
+          NAME_STARTS.any? { |n| n === c }
+        end
 
         case c = advance
         when "\0"
@@ -345,7 +349,15 @@ module Piga
           @token.type = :EOF
         when *NAME_STARTS
           # TODO: allow A::B
-          advance while letter.(@scanner.current_char) || @scanner.peek(2) == "::"
+          # c = advance while (NAME_STARTS.any? { |s| s === c } || c == ":") &&
+                           # !(NON_WORD_CHARS.include? c)
+          # while @scanner.peek(2) == "::" || (@scanner.current_char == ":" && last_char == ":") || letter.(@scanner.current_char)
+          # while @scanner.peek(2) == "::" || letter.(@scanner.current_char)
+          while letter.(@scanner.current_char)
+            # until NON_WORD_CHARS.include?(c)
+              c = advance
+            # end
+          end
           @token.type = :NAME
         when " ", "\t"
           consume_whitespace
@@ -508,7 +520,10 @@ module Piga
           io.puts "# **note**: auto-generated, do not edit."
         end
         io.puts "#"
-        io.puts "#    $ bundle exec ruby parser.rb # for instance"
+        io.puts "#    $ ruby lib/piga/parser.rb < lib/piga/piga.piga > v2.rb"
+        io.puts "#    $ ruby v2.rb < lib/piga/piga.piga > v3.rb"
+        io.puts "#    $ diff v2.rb v3.rb "
+        io.puts '#    $ if [ -z "`diff v2.rb v3.rb`" ]; then echo "ok"; else echo "fail"; fi'
         io.puts "#"
         io.puts
         io.puts 'require "reline"'
@@ -599,11 +614,20 @@ module Piga
         io.puts
         io.puts "# TODO: rm this"
         io.puts "if $0 == __FILE__"
-        io.puts "  while line = Reline.readline('piga> ', true)"
-        io.puts "    lexer = Piga::Grammar::Lexer.new line"
+        io.puts "  case ARGV&.dig 0"
+        io.puts "  when '-i', '--interactive'"
+        io.puts "    while line = Reline.readline('piga> ', true)"
+        io.puts "      lexer = Piga::Grammar::Lexer.new line"
+        io.puts "      parser = #{@class_name}.new(lexer)"
+        io.puts "      ast = parser.parse"
+        io.puts "      puts ast"
+        io.puts "    end"
+        io.puts "  else"
+        io.puts "    lexer = Piga::Grammar::Lexer.new ARGF.read"
         io.puts "    parser = #{@class_name}.new(lexer)"
         io.puts "    ast = parser.parse"
-        io.puts "    puts ast"
+        io.puts "    gen = Piga::Grammar::Generator.new ast"
+        io.puts "    puts gen.generate"
         io.puts "  end"
         io.puts "end"
       end

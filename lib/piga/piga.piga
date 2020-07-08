@@ -2,9 +2,15 @@
 #
 # Piga is a Parsing Expression Grammar (PEG) parser generator.
 #
+# == lexing
+#
+# A lexer is required (for now). Tokens are represented as UPPERCASE.
+#
 # == directives
 #
-# A directive name starts with a `%`, and s followed by one of more words.
+# Directives supply configuration options.
+#
+# A directive name starts with a `%`, and is followed by one of more words.
 #
 # - `%name` - set the generated parser's class name
 #
