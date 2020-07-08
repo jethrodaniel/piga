@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "piga"
+
+# todo: get input from stdin
+file = ARGV[0]
+abort "no grammar file supplied" unless file && File.file?(file)
+
+lexer = Piga::Grammar::Lexer.new(File.read(file))
+puts lexer.tokens
