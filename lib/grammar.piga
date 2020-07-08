@@ -6,7 +6,7 @@
 #
 # A directive name starts with a `%`, and s followed by one of more words.
 #
-# - `%name` - sets the generated parser's class name
+# - `%name` - set the generated parser's class name
 #
 # == rules
 #
