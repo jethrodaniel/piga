@@ -16,6 +16,7 @@
 # == usage
 #
 #     $ bundle exec exe/piga lib/piga/grammar.piga > lib/piga/parser.rb
+#     $ bundle exec ruby lib/piga/parser.rb
 
 %name P;
 
