@@ -333,6 +333,7 @@ end
 module Piga
   module Grammar
     class Lexer < Lex::Lexer
+      NAME_STARTS = ["a".."z", "A".."Z", "_"]
       def next_token
         reset_and_set_start
 
@@ -342,8 +343,9 @@ module Piga
         when "\0"
           error "out of input" if @tokens.last&.type == :EOF
           @token.type = :EOF
-        when letter
-          advance while letter.call(@scanner.current_char)
+        when *NAME_STARTS
+          # TODO: allow A::B
+          advance while letter.(@scanner.current_char) || @scanner.peek(2) == "::"
           @token.type = :NAME
         when " ", "\t"
           consume_whitespace

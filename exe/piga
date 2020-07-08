@@ -23,13 +23,12 @@ require "piga/parser"
 # require_relative "../v4"
 # require_relative "../v5"
 
-# todo: get input from stdin
 file = ARGV[0]
 abort "no grammar file supplied" unless file && File.file?(file)
 
 lexer = Piga::Grammar::Lexer.new(File.read(file))
+Piga::Grammar::Parser = P if Object.const_defined?(:P)
 parser = Piga::Grammar::Parser.new lexer
-# parser = Piga::Grammar::OldParser.new File.read(file)
 grammar = parser.parse
 
 gen = Piga::Grammar::Generator.new grammar, :input_file => file
