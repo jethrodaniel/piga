@@ -1,0 +1,13 @@
+require "bundler/gem_tasks"
+
+task :default => :install
+
+ASSERT = 'spec/assert.rb'
+
+file ASSERT do
+  `wget -O spec/assert.rb https://raw.githubusercontent.com/mruby/mruby/master/test/assert.rb`
+end
+
+task :spec => ASSERT do
+  sh %(ruby -I lib:spec -r assert -e "load 'spec/piga_spec.rb'; report")
+end

@@ -1,0 +1,51 @@
+%name A;
+
+grammar
+  : sp* directives sp* rules
+    {
+      Piga::Grammar::AST::Grammar.new val[1], val[3]
+    }
+  | sp* directive sp* rules
+    {
+      Piga::Grammar::AST::Grammar.new val[1], val[3]
+    }
+  | sp* rules { Piga::Grammar::AST::Grammar.new [], val[1] }
+  ;
+directives
+  : directive sp* directives { [val[0], *val[2]] }
+  | directive { [val[0]] }
+  ;
+directive
+  : DIRECTIVE sp* names sp* SEMI* { s(:DIRECTIVE, val[0].value, *val[2...-1].flatten.map(&:value)) }
+  | DIRECTIVE sp* NAME sp* SEMI*  { s(:DIRECTIVE, val[0].value, *val[2].value) }
+  ;
+names
+  : NAME sp* names { [val[0], *val[2..-1]] }
+  | NAME           { [val[0]] }
+  ;
+rules
+  : rule sp* rules { [val[0], *val[2]] }
+  | rule           { [val[0]] }
+  ;
+rule
+  : NAME sp* COLON sp* alternatives sp* SEMI { Piga::Grammar::AST::Rule.new val[0].value, val[4] }
+  ;
+alternatives
+  : alternative sp* PIPE sp* alternatives { [val[0], *val[4]] }
+  | alternative                           { [val.first] }
+  ;
+alternative
+  : sp* alt sp* BLOCK { Piga::Grammar::AST::Alt.new(val[1], val[3].value[1...-1]) }
+  | sp* alt sp*       { Piga::Grammar::AST::Alt.new(val[1], "val[0]") }
+  ;
+alt: items;
+items
+  : item sp* items* { [val[0], *val[2..-1]].flatten }
+  ;
+item
+  : NAME STAR { Piga::Grammar::AST::Item.new(val[0].value, true) }
+  | NAME PLUS { Piga::Grammar::AST::Item.new(val[0].value, false, true) }
+  | NAME      { Piga::Grammar::AST::Item.new(val[0].value) }
+  ;
+sps: sp* { val };
+sp: SPACE | NEWLINE;

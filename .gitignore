@@ -1,0 +1,17 @@
+# standard bundle/gem things
+/.bundle/
+/pkg/
+
+# yard doc
+/.yardoc
+/_yardoc/
+/doc/
+/docs/
+
+# rubocop
+.rubocop-https---*
+
+# the gemspec is for this
+.ruby-version
+
+/tmp/
