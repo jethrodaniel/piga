@@ -144,7 +144,7 @@ class Piga::Grammar::Lexer < Racc::Parser
                   when (text = @ss.scan(/:/))
                      action { t(:COLON, text) }
 
-                  when (text = @ss.scan(/[ \t]+/))
+                  when (text = @ss.scan(/[ \t]/))
                      action { t(:SPACE, text) }
 
                   when (text = @ss.scan(/\+/))

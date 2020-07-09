@@ -351,7 +351,7 @@ class Piga::Grammar::Parser < Piga::Parser
       val << __39
       if __40 = consume_star_rule(:sp)
         val << __40
-        if __41 = consume(:PIPE)
+        if __41 = consume_literal("|")
           val << __41
           if __42 = consume_star_rule(:sp)
             val << __42

@@ -241,6 +241,12 @@ module Piga
               is_token = item.value == item.value.upcase
               indent = " " * (depth += 2)
 
+              # if item.value == " "
+              # require 'pry';require 'pry-byebug';binding.pry;nil
+              # puts
+
+              # end
+
               if is_epsilon
                 io.puts "#{indent}if true"
                 io.puts "#{indent}  val << nil"

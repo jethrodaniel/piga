@@ -57,7 +57,7 @@ class Piga::Grammar::Lexer
 # macros are just placeholders for match expressions
 macro
 
-  BLANK         [\ \t]+
+  BLANK         [\ \t]
   NEWLINE       [\n]
   # WORD          [a-zA-Z0-9_]+([a-zA-Z0-9_:][^\s]+)*
   WORD          [a-zA-Z0-9_:]+
@@ -86,7 +86,7 @@ rule
            {BLANK}            { t(:SPACE, text) }
            \+                 { t(:LIT, text) }
            \*                 { t(:LIT, text) }
-           \|                 { t(:PIPE, text) }
+           \|                 { t(:LIT, text) }
            {DOUBLE_QUOTE_STR} { t(:LIT, text[1...-1]) }
            {SINGLE_QUOTE_STR} { t(:LIT, text[1...-1]) }
            # \(                 { t(:LEFT_PAREN, text) }

@@ -57,7 +57,7 @@ rule
   : NAME sp* COLON sp* alternatives sp* SEMI { Piga::Grammar::AST::Rule.new val[0].value, val[4] }
   ;
 alternatives
-  : alternative sp* PIPE sp* alternatives { [val[0], *val[4]] }
+  : alternative sp* "|" sp* alternatives { [val[0], *val[4]] }
   | alternative                           { [val.first] }
   ;
 alternative
