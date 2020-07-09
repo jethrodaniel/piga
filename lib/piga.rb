@@ -250,7 +250,7 @@ module Piga
                 if item.zero_or_more
                   io.puts "#{indent}if #{var} = consume_star(:#{item.value})"
                 elsif item.literal?
-                  io.puts "#{indent}if #{var} = consume_literal('#{item.value}')"
+                  io.puts "#{indent}if #{var} = consume_literal(\"#{item.value}\")"
                 else
                   io.puts "#{indent}if #{var} = consume(:#{item.value})"
                 end
@@ -261,6 +261,8 @@ module Piga
 
                 if item.zero_or_more
                   io.puts "#{indent}if #{var} = consume_star_rule(:#{item.value})"
+                elsif item.literal?
+                  io.puts "#{indent}if #{var} = consume_literal(\"#{item.value}\")"
                 else
                   io.puts "#{indent}if #{var} = #{item.value}"
                 end

@@ -58,7 +58,7 @@ class Piga::Grammar::Lexer
 macro
 
   BLANK         [\ \t]+
-  NEWLINE       [\n]+
+  NEWLINE       [\n]
   # WORD          [a-zA-Z0-9_]+([a-zA-Z0-9_:][^\s]+)*
   WORD          [a-zA-Z0-9_:]+
   WORD_START    [a-zA-Z0-9_]+
@@ -74,7 +74,7 @@ rule
            {NEWLINE}          {
                                 @line += 1
                                 @column = 1
-                                t(:NEWLINE, text)
+                                t(:LIT, text)
                               }
            ;                  { self.state = nil; t(:SEMI, text) }
            %{WORD}            { self.state = :dir; t(:DIRECTIVE, text) }

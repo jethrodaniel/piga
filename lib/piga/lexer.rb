@@ -115,11 +115,11 @@ class Piga::Grammar::Lexer < Racc::Parser
                   when (text = @ss.scan(/\#[^\n]*[\n]*/))
                      action { t(:COMMENT, text) }
 
-                  when (text = @ss.scan(/[\n]+/))
+                  when (text = @ss.scan(/[\n]/))
                      action {
                                 @line += 1
                                 @column = 1
-                                t(:NEWLINE, text)
+                                t(:LIT, text)
                               }
 
 

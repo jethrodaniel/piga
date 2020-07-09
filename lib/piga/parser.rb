@@ -499,7 +499,7 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __56 = consume(:NAME)
       val << __56
-      if __57 = consume_literal('*')
+      if __57 = consume_literal("*")
         val << __57
         return begin
                   Piga::Grammar::AST::Item.new(val[0].value, true) 
@@ -515,7 +515,7 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __58 = consume(:NAME)
       val << __58
-      if __59 = consume_literal('+')
+      if __59 = consume_literal("+")
         val << __59
         return begin
                   Piga::Grammar::AST::Item.new(val[0].value, false, true) 
@@ -541,7 +541,7 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __61 = consume(:LIT)
       val << __61
-      if __62 = consume_literal('*')
+      if __62 = consume_literal("*")
         val << __62
         return begin
                   Piga::Grammar::AST::Item.new(val[0].value, true, false, true) 
@@ -557,7 +557,7 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __63 = consume(:LIT)
       val << __63
-      if __64 = consume_literal('+')
+      if __64 = consume_literal("+")
         val << __64
         return begin
                   Piga::Grammar::AST::Item.new(val[0].value, false, true, true) 
@@ -603,7 +603,7 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __67 = consume(:SPACE)
+    if __67 = consume_literal("\n")
       val << __67
       return begin
                val[0]
@@ -613,7 +613,7 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
     end
 
-    if __68 = consume(:NEWLINE)
+    if __68 = consume(:SPACE)
       val << __68
       return begin
                val[0]

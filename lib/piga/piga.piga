@@ -69,12 +69,12 @@ items
   : item sp* items* { [val[0], *val[2..-1]].flatten }
   ;
 item
-  : NAME "*" { Piga::Grammar::AST::Item.new(val[0].value, true) }
-  | NAME "+" { Piga::Grammar::AST::Item.new(val[0].value, false, true) }
+  : NAME '*' { Piga::Grammar::AST::Item.new(val[0].value, true) }
+  | NAME '+' { Piga::Grammar::AST::Item.new(val[0].value, false, true) }
   | NAME     { Piga::Grammar::AST::Item.new(val[0].value) }
-  | LIT  "*" { Piga::Grammar::AST::Item.new(val[0].value, true, false, true) }
-  | LIT  "+" { Piga::Grammar::AST::Item.new(val[0].value, false, true, true) }
+  | LIT  '*' { Piga::Grammar::AST::Item.new(val[0].value, true, false, true) }
+  | LIT  '+' { Piga::Grammar::AST::Item.new(val[0].value, false, true, true) }
   | LIT      { Piga::Grammar::AST::Item.new(val[0].value, false, false, true) }
   ;
 sps: sp* { val };
-sp: SPACE | NEWLINE | COMMENT;
+sp: '\n' | SPACE | COMMENT;
