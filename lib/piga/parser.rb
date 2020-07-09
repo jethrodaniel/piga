@@ -4,7 +4,7 @@
 #
 #    $ ruby lib/piga/parser.rb < lib/piga/piga.piga > v2.rb
 #    $ ruby v2.rb < lib/piga/piga.piga > v3.rb
-#    $ diff v2.rb v3.rb
+#    $ diff v2.rb v3.rb 
 #    $ if [ -z "`diff v2.rb v3.rb`" ]; then echo "ok"; else echo "fail"; fi
 #
 
@@ -34,9 +34,9 @@ class Piga::Grammar::Parser < Piga::Parser
           if __3 = rules
             val << __3
             return begin
-
+                     
       Piga::Grammar::AST::Grammar.new val[1], val[3]
-
+    
                    end
           else
             val = []
@@ -64,9 +64,9 @@ class Piga::Grammar::Parser < Piga::Parser
           if __7 = rules
             val << __7
             return begin
-
+                     
       Piga::Grammar::AST::Grammar.new val[1], val[3]
-
+    
                    end
           else
             val = []
@@ -90,7 +90,7 @@ class Piga::Grammar::Parser < Piga::Parser
       if __9 = rules
         val << __9
         return begin
-                  Piga::Grammar::AST::Grammar.new [], val[1]
+                  Piga::Grammar::AST::Grammar.new [], val[1] 
                end
       else
         val = []
@@ -114,7 +114,7 @@ class Piga::Grammar::Parser < Piga::Parser
         if __12 = directives
           val << __12
           return begin
-                    [val[0], *val[2]]
+                    [val[0], *val[2]] 
                  end
         else
           val = []
@@ -132,7 +132,7 @@ class Piga::Grammar::Parser < Piga::Parser
     if __13 = directive
       val << __13
       return begin
-                [val[0]]
+                [val[0]] 
              end
     else
       val = []
@@ -156,7 +156,7 @@ class Piga::Grammar::Parser < Piga::Parser
             if __18 = consume_star(:SEMI)
               val << __18
               return begin
-                        s(:DIRECTIVE, val[0].value, *val[2...-1].flatten.map(&:value))
+                        s(:DIRECTIVE, val[0].value, *val[2...-1].flatten.map(&:value)) 
                      end
             else
               val = []
@@ -190,7 +190,7 @@ class Piga::Grammar::Parser < Piga::Parser
             if __23 = consume_star(:SEMI)
               val << __23
               return begin
-                        s(:DIRECTIVE, val[0].value, *val[2].value)
+                        s(:DIRECTIVE, val[0].value, *val[2].value) 
                      end
             else
               val = []
@@ -226,7 +226,7 @@ class Piga::Grammar::Parser < Piga::Parser
         if __26 = names
           val << __26
           return begin
-                    [val[0], *val[2..-1]]
+                    [val[0], *val[2..-1]] 
                  end
         else
           val = []
@@ -244,7 +244,7 @@ class Piga::Grammar::Parser < Piga::Parser
     if __27 = consume(:NAME)
       val << __27
       return begin
-                [val[0]]
+                [val[0]] 
              end
     else
       val = []
@@ -264,7 +264,7 @@ class Piga::Grammar::Parser < Piga::Parser
         if __30 = rules
           val << __30
           return begin
-                    [val[0], *val[2]]
+                    [val[0], *val[2]] 
                  end
         else
           val = []
@@ -282,7 +282,7 @@ class Piga::Grammar::Parser < Piga::Parser
     if __31 = rule
       val << __31
       return begin
-                [val[0]]
+                [val[0]] 
              end
     else
       val = []
@@ -310,7 +310,7 @@ class Piga::Grammar::Parser < Piga::Parser
                 if __38 = consume(:SEMI)
                   val << __38
                   return begin
-                            Piga::Grammar::AST::Rule.new val[0].value, val[4]
+                            Piga::Grammar::AST::Rule.new val[0].value, val[4] 
                          end
                 else
                   val = []
@@ -358,7 +358,7 @@ class Piga::Grammar::Parser < Piga::Parser
             if __43 = alternatives
               val << __43
               return begin
-                        [val[0], *val[4]]
+                        [val[0], *val[4]] 
                      end
             else
               val = []
@@ -384,7 +384,7 @@ class Piga::Grammar::Parser < Piga::Parser
     if __44 = alternative
       val << __44
       return begin
-                [val.first]
+                [val.first] 
              end
     else
       val = []
@@ -406,7 +406,7 @@ class Piga::Grammar::Parser < Piga::Parser
           if __48 = consume(:BLOCK)
             val << __48
             return begin
-                      Piga::Grammar::AST::Alt.new(val[1], val[3].value[1...-1])
+                      Piga::Grammar::AST::Alt.new(val[1], val[3].value[1...-1]) 
                    end
           else
             val = []
@@ -432,7 +432,7 @@ class Piga::Grammar::Parser < Piga::Parser
         if __51 = consume_star_rule(:sp)
           val << __51
           return begin
-                    Piga::Grammar::AST::Alt.new(val[1], "val[0]")
+                    Piga::Grammar::AST::Alt.new(val[1], "val[0]") 
                  end
         else
           val = []
@@ -476,7 +476,7 @@ class Piga::Grammar::Parser < Piga::Parser
         if __55 = consume_star_rule(:items)
           val << __55
           return begin
-                    [val[0], *val[2..-1]].flatten
+                    [val[0], *val[2..-1]].flatten 
                  end
         else
           val = []
@@ -499,10 +499,10 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __56 = consume(:NAME)
       val << __56
-      if __57 = consume(:STAR)
+      if __57 = consume_literal('*')
         val << __57
         return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, true)
+                  Piga::Grammar::AST::Item.new(val[0].value, true) 
                end
       else
         val = []
@@ -515,10 +515,10 @@ class Piga::Grammar::Parser < Piga::Parser
 
     if __58 = consume(:NAME)
       val << __58
-      if __59 = consume(:PLUS)
+      if __59 = consume_literal('+')
         val << __59
         return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, false, true)
+                  Piga::Grammar::AST::Item.new(val[0].value, false, true) 
                end
       else
         val = []
@@ -532,7 +532,49 @@ class Piga::Grammar::Parser < Piga::Parser
     if __60 = consume(:NAME)
       val << __60
       return begin
-                Piga::Grammar::AST::Item.new(val[0].value)
+                Piga::Grammar::AST::Item.new(val[0].value) 
+             end
+    else
+      val = []
+      reset loc
+    end
+
+    if __61 = consume(:LIT)
+      val << __61
+      if __62 = consume_literal('*')
+        val << __62
+        return begin
+                  Piga::Grammar::AST::Item.new(val[0].value, true, false, true) 
+               end
+      else
+        val = []
+        reset loc
+      end
+    else
+      val = []
+      reset loc
+    end
+
+    if __63 = consume(:LIT)
+      val << __63
+      if __64 = consume_literal('+')
+        val << __64
+        return begin
+                  Piga::Grammar::AST::Item.new(val[0].value, false, true, true) 
+               end
+      else
+        val = []
+        reset loc
+      end
+    else
+      val = []
+      reset loc
+    end
+
+    if __65 = consume(:LIT)
+      val << __65
+      return begin
+                Piga::Grammar::AST::Item.new(val[0].value, false, false, true) 
              end
     else
       val = []
@@ -545,10 +587,10 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __61 = consume_star_rule(:sp)
-      val << __61
+    if __66 = consume_star_rule(:sp)
+      val << __66
       return begin
-                val
+                val 
              end
     else
       val = []
@@ -561,8 +603,8 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __62 = consume(:SPACE)
-      val << __62
+    if __67 = consume(:SPACE)
+      val << __67
       return begin
                val[0]
              end
@@ -571,8 +613,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
     end
 
-    if __63 = consume(:NEWLINE)
-      val << __63
+    if __68 = consume(:NEWLINE)
+      val << __68
       return begin
                val[0]
              end
@@ -581,8 +623,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
     end
 
-    if __64 = consume(:COMMENT)
-      val << __64
+    if __69 = consume(:COMMENT)
+      val << __69
       return begin
                val[0]
              end

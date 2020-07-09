@@ -3,9 +3,11 @@
 
 require "piga/lexer"
 
-# todo: get input from stdin
-file = ARGV[0]
-abort "no grammar file supplied" unless file && File.file?(file)
+Piga::Grammar::Lexer.interactive
 
-lexer = Piga::Grammar::Lexer.new
-puts lexer.tokenize File.read(file)
+# todo: get input from stdin
+# file = ARGV[0]
+# abort "no grammar file supplied" unless file && File.file?(file)
+
+# lexer = Piga::Grammar::Lexer.new
+# puts lexer.tokenize File.read(file)

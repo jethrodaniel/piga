@@ -129,9 +129,6 @@ class Piga::Grammar::Lexer < Racc::Parser
                   when (text = @ss.scan(/%[a-zA-Z0-9_:]+/))
                      action { self.state = :dir; t(:DIRECTIVE, text) }
 
-                  when (text = @ss.scan(/{RANGE}/))
-                     action { t(:RANGE, text[1...-1]) }
-
                   when (text = @ss.scan(/\{(?>[^{}]+|\g<0>)*\}/))
                      action { t(:BLOCK, text) }
 
@@ -144,23 +141,20 @@ class Piga::Grammar::Lexer < Racc::Parser
                   when (text = @ss.scan(/:/))
                      action { t(:COLON, text) }
 
-                  when (text = @ss.scan(/[ \t]+/))
+                  when (text = @ss.scan(/{BLANK}/))
                      action { t(:SPACE, text) }
 
                   when (text = @ss.scan(/\+/))
-                     action { t(:LIT, text) }
+                     action { t(:PLUS, text) }
 
                   when (text = @ss.scan(/\*/))
-                     action { t(:LIT, text) }
+                     action { t(:STAR, text) }
 
                   when (text = @ss.scan(/\|/))
                      action { t(:PIPE, text) }
 
-                  when (text = @ss.scan(/"[^"]*"/))
-                     action { t(:LIT, text[1...-1]) }
-
-                  when (text = @ss.scan(/'[^']*'/))
-                     action { t(:LIT, text[1...-1]) }
+                  when (text = @ss.scan(/"(?>[^"]+|\g<0>)*"/))
+                     action { t(:DOUBLE_QUOTE_STR, text) }
 
           
           else

@@ -56,12 +56,16 @@ end
 class Piga::Grammar::Lexer
 # macros are just placeholders for match expressions
 macro
+
   BLANK         [\ \t]+
   NEWLINE       [\n]+
   # WORD          [a-zA-Z0-9_]+([a-zA-Z0-9_:][^\s]+)*
   WORD          [a-zA-Z0-9_:]+
   WORD_START    [a-zA-Z0-9_]+
   BLOCK         \{(?>[^{}]+|\g<0>)*\} # https://stackoverflow.com/a/35271017/7132678
+  DOUBLE_QUOTE_STR "[^"]*" # "
+  SINGLE_QUOTE_STR '[^']*' $ '
+  # RANGE         \[.*\]
 
 # note: lowercase states are inclusive, uppercase states are exclusive
 rule
@@ -73,19 +77,18 @@ rule
                                 t(:NEWLINE, text)
                               }
            ;                  { self.state = nil; t(:SEMI, text) }
-           # \{                 { t(:LEFT_BRACE, text) }
-           # \}                 { t(:RIGHT_BRACE, text) }
            %{WORD}            { self.state = :dir; t(:DIRECTIVE, text) }
+           {RANGE}            { t(:RANGE, text[1...-1]) }
            {BLOCK}            { t(:BLOCK, text) }
  :dir      {WORD}             { t(:NAME, text) }
            {WORD_START}       { t(:NAME, text) }
            :                  { t(:COLON, text) }
            {BLANK}            { t(:SPACE, text) }
-           \+                 { t(:PLUS, text) }
-           \*                 { t(:STAR, text) }
+           \+                 { t(:LIT, text) }
+           \*                 { t(:LIT, text) }
            \|                 { t(:PIPE, text) }
-           # \".*\"             { t(:DOUBLE_QUOTE_STR, text.gsub(/^"|"$/, '')) }
-           # \'.*\'             { t(:SINGLE_QUOTE_STR, text.gsub(/^'|'$/, '')) }
+           {DOUBLE_QUOTE_STR} { t(:LIT, text[1...-1]) }
+           {SINGLE_QUOTE_STR} { t(:LIT, text[1...-1]) }
            # \(                 { t(:LEFT_PAREN, text) }
            # \)                 { t(:RIGHT_PAREN, text) }
            # !                  { t(:BANG, text) }

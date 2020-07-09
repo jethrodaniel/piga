@@ -2,12 +2,21 @@ require "bundler/gem_tasks"
 
 task :default => :install
 
-ASSERT = 'spec/assert.rb'
+ASSERT = "spec/assert.rb".freeze
+LEXER_IN  = "lib/piga/lexer.rex".freeze
+LEXER_OUT = "lib/piga/lexer.rb".freeze
 
-file ASSERT do
-  `wget -O spec/assert.rb https://raw.githubusercontent.com/mruby/mruby/master/test/assert.rb`
+# file ASSERT do
+#   `wget -O spec/assert.rb https://raw.githubusercontent.com/mruby/mruby/master/test/assert.rb`
+# end
+
+# task :spec => ASSERT do
+task :spec do
+  sh %(ruby -I lib:spec -r assert -e "load 'spec/piga_spec.rb'; report")
 end
 
-task :spec => ASSERT do
-  sh %(ruby -I lib:spec -r assert -e "load 'spec/piga_spec.rb'; report")
+task :lex => LEXER_OUT
+
+file LEXER_OUT => LEXER_IN do |t|
+  sh "bundle exec rex #{t.source} -o #{t.name}"
 end

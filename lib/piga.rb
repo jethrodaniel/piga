@@ -63,6 +63,12 @@ module Piga
       nil
     end
 
+    def consume_literal *lits
+      token = @token_stream.peek
+      return @token_stream.next if lits.any? { |l| token.value == l }
+
+      nil
+    end
     def consume_star *types
       ret = []
       ret << @token_stream.next while types.include? @token_stream.peek.type
@@ -243,6 +249,8 @@ module Piga
 
                 if item.zero_or_more
                   io.puts "#{indent}if #{var} = consume_star(:#{item.value})"
+                elsif item.literal?
+                  io.puts "#{indent}if #{var} = consume_literal('#{item.value}')"
                 else
                   io.puts "#{indent}if #{var} = consume(:#{item.value})"
                 end

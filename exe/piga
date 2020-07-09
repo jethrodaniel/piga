@@ -23,6 +23,8 @@ require "piga/lexer"
 # require_relative "../v3"
 # require_relative "../v4"
 # require_relative "../v5"
+# require_relative "../v6"
+# require_relative "../v7"
 
 file = ARGV[0]
 abort "no grammar file supplied" unless file && File.file?(file)
