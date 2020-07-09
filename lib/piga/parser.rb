@@ -1,18 +1,6 @@
-# frozen_string_literal: true
-
-# **note**: auto-generated from `lib/piga/piga.piga`, do not edit.
-#
-#    $ ruby lib/piga/parser.rb < lib/piga/piga.piga > v2.rb
-#    $ ruby v2.rb < lib/piga/piga.piga > v3.rb
-#    $ diff v2.rb v3.rb 
-#    $ if [ -z "`diff v2.rb v3.rb`" ]; then echo "ok"; else echo "fail"; fi
-#
-
 require "reline"
-
-require "ast"
 require "piga"
-require "piga/lexer"
+require "ast"
 
 class Piga::Grammar::Parser < Piga::Parser
   include AST::Sexp
@@ -21,85 +9,84 @@ class Piga::Grammar::Parser < Piga::Parser
     grammar
   end
 
+  def handler_missing node
+    error "no handler for node: #{node.type}"
+  end
+
   def grammar
     loc = pos
     val = []
 
     if __0 = consume_star_rule(:sp)
       val << __0
-      if __1 = directives
+      if __1 = consume_rule(:directives)
         val << __1
         if __2 = consume_star_rule(:sp)
           val << __2
-          if __3 = rules
+          if __3 = consume_rule(:rules)
             val << __3
             return begin
-                     
-      Piga::Grammar::AST::Grammar.new val[1], val[3]
-    
+                     s(:grammar, val[1], val[3]) 
                    end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
     if __4 = consume_star_rule(:sp)
       val << __4
-      if __5 = directive
+      if __5 = consume_rule(:directive)
         val << __5
         if __6 = consume_star_rule(:sp)
           val << __6
-          if __7 = rules
+          if __7 = consume_rule(:rules)
             val << __7
             return begin
-                     
-      Piga::Grammar::AST::Grammar.new val[1], val[3]
-    
+                     s(:grammar, val[1], val[3]) 
                    end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
     if __8 = consume_star_rule(:sp)
       val << __8
-      if __9 = rules
+      if __9 = consume_rule(:rules)
         val << __9
         return begin
-                  Piga::Grammar::AST::Grammar.new [], val[1] 
+                 s(:grammar, [], val[3]) 
                end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -107,37 +94,37 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __10 = directive
+    if __10 = consume_rule(:directive)
       val << __10
       if __11 = consume_star_rule(:sp)
         val << __11
-        if __12 = directives
+        if __12 = consume_rule(:directives)
           val << __12
           return begin
-                    [val[0], *val[2]] 
+                   s(:directives, val[0], *val[2]) 
                  end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __13 = directive
+    if __13 = consume_rule(:directive)
       val << __13
       return begin
-                [val[0]] 
+               s(:directives, val[0]) 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -145,73 +132,79 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __14 = consume(:DIRECTIVE)
+    if __14 = consume_rule(:_directive)
       val << __14
       if __15 = consume_star_rule(:sp)
         val << __15
-        if __16 = names
+        if __16 = consume_rule(:names)
           val << __16
           if __17 = consume_star_rule(:sp)
             val << __17
-            if __18 = consume_star(:SEMI)
+            if __18 = consume_star(";")
               val << __18
               return begin
-                        s(:DIRECTIVE, val[0].value, *val[2...-1].flatten.map(&:value)) 
+                       s(:directive, val[0], *val[2]) 
                      end
             else
-              val = []
               reset loc
+              val = []
             end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
+    end
+    if __19 = consume_rule(:_directive)
+      val << __19
+      if __20 = consume_rule(:name)
+        val << __20
+        if __21 = consume_star_rule(:sp)
+          val << __21
+          if __22 = consume_rule(:name)
+            val << __22
+            if __23 = consume_star_rule(:sp)
+              val << __23
+              if __24 = consume_star(";")
+                val << __24
+                return begin
+                         s(:directive, val[0], val[1], val[3]) 
+                       end
+              else
+                reset loc
+                val = []
+              end
+            else
+              reset loc
+              val = []
+            end
+          else
+            reset loc
+            val = []
+          end
+        else
+          reset loc
+          val = []
+        end
+      else
+        reset loc
+        val = []
+      end
+    else
+      reset loc
+      val = []
     end
 
-    if __19 = consume(:DIRECTIVE)
-      val << __19
-      if __20 = consume_star_rule(:sp)
-        val << __20
-        if __21 = consume(:NAME)
-          val << __21
-          if __22 = consume_star_rule(:sp)
-            val << __22
-            if __23 = consume_star(:SEMI)
-              val << __23
-              return begin
-                        s(:DIRECTIVE, val[0].value, *val[2].value) 
-                     end
-            else
-              val = []
-              reset loc
-            end
-          else
-            val = []
-            reset loc
-          end
-        else
-          val = []
-          reset loc
-        end
-      else
-        val = []
-        reset loc
-      end
-    else
-      val = []
-      reset loc
-    end
     nil
   end
 
@@ -219,37 +212,37 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __24 = consume(:NAME)
-      val << __24
-      if __25 = consume_star_rule(:sp)
-        val << __25
-        if __26 = names
-          val << __26
+    if __25 = consume_rule(:name)
+      val << __25
+      if __26 = consume_star_rule(:sp)
+        val << __26
+        if __27 = consume_rule(:names)
+          val << __27
           return begin
-                    [val[0], *val[2..-1]] 
+                   [val[0], *val[2..-1]] 
                  end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __27 = consume(:NAME)
-      val << __27
+    if __28 = consume_rule(:name)
+      val << __28
       return begin
-                [val[0]] 
+               [val[0]] 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -257,37 +250,37 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __28 = rule
-      val << __28
-      if __29 = consume_star_rule(:sp)
-        val << __29
-        if __30 = rules
-          val << __30
+    if __29 = consume_rule(:rule)
+      val << __29
+      if __30 = consume_star_rule(:sp)
+        val << __30
+        if __31 = consume_rule(:rules)
+          val << __31
           return begin
-                    [val[0], *val[2]] 
+                   s(:rules, val[0], *val[2]) 
                  end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __31 = rule
-      val << __31
+    if __32 = consume_rule(:rule)
+      val << __32
       return begin
-                [val[0]] 
+               s(:rules, val[0]) 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -295,51 +288,52 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __32 = consume(:NAME)
-      val << __32
-      if __33 = consume_star_rule(:sp)
-        val << __33
-        if __34 = consume(:COLON)
-          val << __34
-          if __35 = consume_star_rule(:sp)
-            val << __35
-            if __36 = alternatives
-              val << __36
-              if __37 = consume_star_rule(:sp)
-                val << __37
-                if __38 = consume(:SEMI)
-                  val << __38
+    if __33 = consume_rule(:name)
+      val << __33
+      if __34 = consume_star_rule(:sp)
+        val << __34
+        if __35 = consume(":")
+          val << __35
+          if __36 = consume_star_rule(:sp)
+            val << __36
+            if __37 = consume_rule(:alternatives)
+              val << __37
+              if __38 = consume_star_rule(:sp)
+                val << __38
+                if __39 = consume(";")
+                  val << __39
                   return begin
-                            Piga::Grammar::AST::Rule.new val[0].value, val[4] 
+                           s(:rule, val[0], val[4]) 
                          end
                 else
-                  val = []
                   reset loc
+                  val = []
                 end
               else
-                val = []
                 reset loc
+                val = []
               end
             else
-              val = []
               reset loc
+              val = []
             end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -347,49 +341,49 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __39 = alternative
-      val << __39
-      if __40 = consume_star_rule(:sp)
-        val << __40
-        if __41 = consume_literal("|")
-          val << __41
-          if __42 = consume_star_rule(:sp)
-            val << __42
-            if __43 = alternatives
-              val << __43
+    if __40 = consume_rule(:alternative)
+      val << __40
+      if __41 = consume_star_rule(:sp)
+        val << __41
+        if __42 = consume("|")
+          val << __42
+          if __43 = consume_star_rule(:sp)
+            val << __43
+            if __44 = consume_rule(:alternatives)
+              val << __44
               return begin
-                        [val[0], *val[4]] 
+                       s(:alternatives, val[0], *val[4]) 
                      end
             else
-              val = []
               reset loc
+              val = []
             end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __44 = alternative
-      val << __44
+    if __45 = consume_rule(:alternative)
+      val << __45
       return begin
-                [val.first] 
+               s(:alternatives, val[0]) 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -397,55 +391,55 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __45 = consume_star_rule(:sp)
-      val << __45
-      if __46 = alt
-        val << __46
-        if __47 = consume_star_rule(:sp)
-          val << __47
-          if __48 = consume(:BLOCK)
-            val << __48
+    if __46 = consume_star_rule(:sp)
+      val << __46
+      if __47 = consume_rule(:alt)
+        val << __47
+        if __48 = consume_star_rule(:sp)
+          val << __48
+          if __49 = consume_rule(:block)
+            val << __49
             return begin
-                      Piga::Grammar::AST::Alt.new(val[1], val[3].value[1...-1]) 
+                     s(:alt, s(:items, *val[1]), s(:action, val[3])) 
                    end
           else
-            val = []
             reset loc
+            val = []
           end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __49 = consume_star_rule(:sp)
-      val << __49
-      if __50 = alt
-        val << __50
-        if __51 = consume_star_rule(:sp)
-          val << __51
+    if __50 = consume_star_rule(:sp)
+      val << __50
+      if __51 = consume_rule(:alt)
+        val << __51
+        if __52 = consume_star_rule(:sp)
+          val << __52
           return begin
-                    Piga::Grammar::AST::Alt.new(val[1], "val[0]") 
+                   s(:alt, s(:items, *val[1]), s(:action, "val[0]")) 
                  end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -453,15 +447,16 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __52 = items
-      val << __52
+    if __53 = consume_rule(:items)
+      val << __53
       return begin
-               val[0]
+              val[0]
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -469,27 +464,28 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __53 = item
-      val << __53
-      if __54 = consume_star_rule(:sp)
-        val << __54
-        if __55 = consume_star_rule(:items)
-          val << __55
+    if __54 = consume_rule(:item)
+      val << __54
+      if __55 = consume_star_rule(:sp)
+        val << __55
+        if __56 = consume_star_rule(:items)
+          val << __56
           return begin
-                    [val[0], *val[2..-1]].flatten 
+                   [val[0], *val[2..-1]].flatten 
                  end
         else
-          val = []
           reset loc
+          val = []
         end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -497,89 +493,85 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __56 = consume(:NAME)
-      val << __56
-      if __57 = consume_literal("*")
-        val << __57
+    if __57 = consume_rule(:name)
+      val << __57
+      if __58 = consume("*")
+        val << __58
         return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, true) 
+                 s(:zero_or_more, s(:name, val[0])) 
                end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __58 = consume(:NAME)
-      val << __58
-      if __59 = consume_literal("+")
-        val << __59
+    if __59 = consume_rule(:name)
+      val << __59
+      if __60 = consume("+")
+        val << __60
         return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, false, true) 
+                 s(:one_or_more, s(:name, val[0])) 
                end
       else
-        val = []
         reset loc
+        val = []
       end
     else
-      val = []
       reset loc
-    end
-
-    if __60 = consume(:NAME)
-      val << __60
-      return begin
-                Piga::Grammar::AST::Item.new(val[0].value) 
-             end
-    else
       val = []
-      reset loc
     end
-
-    if __61 = consume(:LIT)
+    if __61 = consume_rule(:name)
       val << __61
-      if __62 = consume_literal("*")
-        val << __62
-        return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, true, false, true) 
-               end
-      else
-        val = []
-        reset loc
-      end
-    else
-      val = []
-      reset loc
-    end
-
-    if __63 = consume(:LIT)
-      val << __63
-      if __64 = consume_literal("+")
-        val << __64
-        return begin
-                  Piga::Grammar::AST::Item.new(val[0].value, false, true, true) 
-               end
-      else
-        val = []
-        reset loc
-      end
-    else
-      val = []
-      reset loc
-    end
-
-    if __65 = consume(:LIT)
-      val << __65
       return begin
-                Piga::Grammar::AST::Item.new(val[0].value, false, false, true) 
+               s(:name, val[0]) 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+    if __62 = consume_rule(:literal)
+      val << __62
+      if __63 = consume("*")
+        val << __63
+        return begin
+                 s(:zero_or_more, s(:literal, val[0])) 
+               end
+      else
+        reset loc
+        val = []
+      end
+    else
+      reset loc
+      val = []
+    end
+    if __64 = consume_rule(:literal)
+      val << __64
+      if __65 = consume("+")
+        val << __65
+        return begin
+                 s(:one_or_more, s(:literal, val[0])) 
+               end
+      else
+        reset loc
+        val = []
+      end
+    else
+      reset loc
+      val = []
+    end
+    if __66 = consume_rule(:literal)
+      val << __66
+      return begin
+               s(:literal, val[0]) 
+             end
+    else
+      reset loc
+      val = []
+    end
+
     nil
   end
 
@@ -587,15 +579,16 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __66 = consume_star_rule(:sp)
-      val << __66
+    if __67 = consume_star_rule(:sp)
+      val << __67
       return begin
-                val 
+               val 
              end
     else
-      val = []
       reset loc
+      val = []
     end
+
     nil
   end
 
@@ -603,56 +596,52 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __67 = consume_literal("\n")
-      val << __67
-      return begin
-               val[0]
-             end
-    else
-      val = []
-      reset loc
-    end
-
-    if __68 = consume(:SPACE)
+    if __68 = consume("\n")
       val << __68
       return begin
-               val[0]
+              val[0]
              end
     else
-      val = []
       reset loc
+      val = []
     end
-
-    if __69 = consume(:COMMENT)
+    if __69 = consume(" ")
       val << __69
       return begin
-               val[0]
+              val[0]
              end
     else
-      val = []
       reset loc
+      val = []
     end
+    if __70 = consume_rule(:comment)
+      val << __70
+      return begin
+              val[0]
+             end
+    else
+      reset loc
+      val = []
+    end
+
     nil
   end
+
 end
 
-# TODO: rm this
 if $0 == __FILE__
   case ARGV&.dig 0
   when '-i', '--interactive'
-    while line = Reline.readline('piga> ', true)
-      lexer = Piga::Grammar::Lexer.new
-      lexer.instance_eval { scan_setup line }
-      parser = Piga::Grammar::Parser.new(lexer)
+    while line = Reline.readline("piga> ", true)
+      parser = Piga::Grammar::Parser.new(line)
       ast = parser.parse
       puts ast
     end
   else
-    lexer = Piga::Grammar::Lexer.new ARGF.read
-    parser = Piga::Grammar::Parser.new(lexer)
+    parser = Piga::Grammar::Parser.new(ARGF.read)
     ast = parser.parse
-    gen = Piga::Grammar::Generator.new ast
-    puts gen.generate
+    require "piga/generator"
+    gen = Piga::Generator.new
+    gen.process(ast)
   end
 end
-
