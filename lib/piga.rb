@@ -5,7 +5,7 @@
 
 require "piga/parser_base"
 
-# todo: mv all this into grammar
+# TODO: mv all this into grammar
 module Piga
   module Grammar
     class Parser < Piga::Parser
@@ -51,13 +51,21 @@ module Piga
       end
 
       def block
-        if @scanner.current_char == "{"
-          @scanner.advance
-          ret = skip_until "}"
-          @scanner.advance
-          return ret
+        return unless (c = @scanner.current_char) == "{"
+
+        lbrace_stack = [@scanner.advance]
+
+        start = pos
+        until lbrace_stack.empty?
+          case c = @scanner.advance
+          when "}"
+            lbrace_stack.pop
+          when "{"
+            lbrace_stack << c
+            @scanner.advance
+          end
         end
-        nil
+        start == pos ? nil : @scanner.string[start...pos - 1]
       end
     end
   end

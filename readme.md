@@ -24,7 +24,7 @@ Assorted Ruby parser generators
 - [ruby-ll](https://gitlab.com/yorickpeterse/ruby-ll)
 - [racc](https://github.com/ruby/racc)
 - [ebnf](https://github.com/dryruby/ebnf)
-- [kpiga](https://github.com/evanphx/kpiga)
+- [kpeg](https://github.com/evanphx/kpeg)
 - [parslet](https://github.com/kschiess/parslet)
 
 # testing
