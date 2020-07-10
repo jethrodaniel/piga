@@ -34,6 +34,9 @@ module Piga
       process_all directives
 
       puts <<~CODE
+        #!/usr/bin/env ruby
+        # frozen_string_literal: true
+
         require "reline"
         require "piga"
         require "ast"
