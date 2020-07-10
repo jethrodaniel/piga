@@ -135,7 +135,6 @@ module Piga
       m = name.children.first
       # puts node.to_s.split("\n").map { |l| "#{indention}# #{l}" }.join("\n")
       if name.type == :literal
-      # if m == "\n"
         puts "#{indention}if #{var} = consume_star(\"#{m}\")"
       else
         puts "#{indention}if #{var} = consume_star_rule(:#{m})"
@@ -147,9 +146,13 @@ module Piga
       indent
       var = new_var
       name, *_ = node.children
-      name = name.children.first
+      m = name.children.first
       # puts node.to_s.split("\n").map { |l| "#{indention}# #{l}" }.join("\n")
-      puts "#{indention}if #{var} = consume_plus_rule(:#{name.type})"
+      if name.type == :literal
+        puts "#{indention}if #{var} = consume_plus(\"#{m}\")"
+      else
+        puts "#{indention}if #{var} = consume_plus_rule(:#{name.type})"
+      end
       puts "#{indention}  val << #{var}"
     end
 

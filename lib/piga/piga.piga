@@ -24,24 +24,20 @@
 #     $ bundle exec exe/piga lib/piga/piga.piga > lib/piga/parser.rb
 #     $ bundle exec ruby lib/piga/parser.rb
 
-%name Piga::Grammar::Parser;
+%name "Piga::Grammar::Parser"
+%prompt "piga> ";
 
 grammar
   : sp* directives sp* rules { s(:grammar, val[1], val[3]) }
-  | sp* directive sp* rules { s(:grammar, val[1], val[3]) }
-  | sp* rules { s(:grammar, [], val[3]) }
+  | sp* rules { s(:grammar, [], val[1]) }
   ;
 directives
-  : directive sp* directives { s(:directives, val[0], *val[2]) }
-  | directive  { s(:directives, val[0]) }
+  : sp* directive sp* directives { s(:directives, val[1], *val[3]) }
+  | sp* directive                { s(:directives, val[1]) }
   ;
 directive
-  : "%" name sp* names sp* ";"* { s(:directive, val[1], *val[3]) }
-  | "%" name sp* name sp* ";"*  { s(:directive, val[1], val[3]) }
-  ;
-names
-  : name sp* names { [val[0], *val[2..-1]] }
-  | name           { [val[0]] }
+  : "%" name sp* literal* sp* ";"* { s(:directive, val[1], *val[3]) }
+  | "%" name sp* literal sp* ";"*  { s(:directive, val[1], val[3]) }
   ;
 rules
   : rule sp* rules { s(:rules, val[0], *val[2]) }
