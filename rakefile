@@ -1,6 +1,7 @@
 require "bundler/gem_tasks"
 
-task :default => :install
+# task :default => :install
+task :default => "spec:bootstrap"
 
 ASSERT = "spec/assert.rb".freeze
 LEXER_IN  = "lib/piga/lexer.rex".freeze
@@ -13,6 +14,22 @@ LEXER_OUT = "lib/piga/lexer.rb".freeze
 # task :spec => ASSERT do
 task :spec do
   sh %(ruby -I lib:spec -r assert -e "load 'spec/piga_spec.rb'; report")
+end
+namespace :spec do
+  task :bootstrap do
+    puts "verifying parser can bootstrap itself...\n"
+    sh <<~SH
+      bundle exec ruby lib/piga/parser.rb < lib/piga/piga.piga > v2.rb
+      bundle exec ruby v2.rb < lib/piga/piga.piga > v3.rb
+      bundle exec ruby v3.rb < lib/piga/piga.piga > v4.rb
+    SH
+    if `diff v2.rb v4.rb` == "" && $?.success?
+      puts "ok"
+    else
+      puts "fail"
+    end
+    sh "rm -f v*.rb"
+  end
 end
 
 task :lex => LEXER_OUT

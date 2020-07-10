@@ -2,31 +2,21 @@
 #
 # Piga is a Parsing Expression Grammar (PEG) parser generator.
 #
-# == lexing
-#
-# A lexer is required (for now). Tokens are represented as UPPERCASE.
-#
-# == directives
-#
-# Directives supply configuration options.
-#
-# A directive name starts with a `%`, and is followed by one of more words.
-#
-# - `%name` - set the generated parser's class name
-#
-# == rules
-#
-# Rules are defined in a similar syntax to yacc/bison, but the `|` represents
-# ordered choice.
-#
 # == usage
 #
-#     $ bundle exec exe/piga lib/piga/piga.piga > lib/piga/parser.rb
-#     $ bundle exec ruby lib/piga/parser.rb
+#    $ ruby lib/piga/parser.rb < lib/piga/piga.piga > v2.rb
+#    $ ruby v2.rb < lib/piga/piga.piga > v3.rb
+#    $ diff v2.rb v3.rb
+#    $ if [ -z "`diff v2.rb v3.rb`" ]; then echo "ok"; else echo "fail"; fi
 
+# Directives supply configuration options
 %name "Piga::Grammar::Parser"
 %prompt "piga> ";
 
+# Rules are defined in a similar syntax to yacc/bison, but the `|` represents
+# ordered choice.
+#
+# The first rule is the root rule.
 grammar
   : sp* directives sp* rules { s(:grammar, val[1], val[3]) }
   | sp* rules { s(:grammar, [], val[1]) }
