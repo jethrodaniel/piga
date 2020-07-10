@@ -69,9 +69,9 @@ module Piga
               puts ast
             end
           else
+            require "piga/generator"
             parser = #{@class_name}.new(ARGF.read)
             ast = parser.parse
-            require "piga/generator"
             gen = Piga::Generator.new
             gen.process(ast)
           end
