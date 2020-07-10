@@ -1,0 +1,34 @@
+# ```
+# $ piga sample/calc.piga > calc.rb && ruby calc.rb -i
+# calc> (2 *3/2 + 4) + 3
+# 10
+# ```
+
+%name "Calc"
+%prompt "calc> ";
+
+expr: term sps add_sub_term*
+  {
+    [val[0], *val[2]].reduce do |res, n| n.empty? ? res : res.send(*n) end
+  }
+  | term;
+add_sub_term: add_sub sps term { [val[0], val[2]] };
+add_sub: add | sub;
+term: factor sps mul_op_factor*
+  {
+    [val[0], *val[2]].reduce do |res, n| n.empty? ? res : res.send(*n) end
+  }
+  | factor;
+mul_op_factor: mul_op sps factor { [val[0], val[2]] };
+mul_op: mul | div;
+factor
+  : "(" expr ")" { val[1] }
+  | num { val[0].to_i };
+num: dig* { val.join } | dig;
+dig: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+add: '+' sps;
+sub: '-' sps;
+div: '/' sps;
+mul: '*' sps;
+sps: sp*;
+sp: '\n' | " ";
