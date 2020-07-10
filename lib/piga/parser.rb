@@ -572,7 +572,7 @@ class Piga::Grammar::Parser < Piga::Parser
 
 end
 
-if $0 == __FILE__
+if $0 == __FILE__ || $piga_exe
   case ARGV&.dig 0
   when '-i', '--interactive'
     while line = Reline.readline("piga> ", true)
@@ -581,9 +581,9 @@ if $0 == __FILE__
       puts ast
     end
   else
+    require "piga/generator"
     parser = Piga::Grammar::Parser.new(ARGF.read)
     ast = parser.parse
-    require "piga/generator"
     gen = Piga::Generator.new
     gen.process(ast)
   end

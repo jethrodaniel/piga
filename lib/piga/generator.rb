@@ -60,7 +60,7 @@ module Piga
       puts <<~CODE
         #{indention}end
 
-        if $0 == __FILE__
+        if $0 == __FILE__ || $piga_exe
           case ARGV&.dig 0
           when '-i', '--interactive'
             while line = Reline.readline(\"#{@prompt}\", true)

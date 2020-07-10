@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "piga/parser"
-require "piga/generator"
-
-file = ARGV[0]
-abort "no grammar file supplied" unless file && File.file?(file)
-
-parser = Piga::Grammar::Parser.new File.read(file)
-ast = parser.parse
-
-gen = Piga::Generator.new
-gen.process ast
+$piga_exe = true
+# load "#{__dir__}/../lib/piga/parser.rb"
+require_relative "../lib/piga/parser"
