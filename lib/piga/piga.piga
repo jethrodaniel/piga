@@ -63,12 +63,13 @@ items
   : item sp* items* { [val[0], *val[2..-1]].flatten }
   ;
 item
-  : name '*' { s(:zero_or_more, s(:name, val[0])) }
-  | name '+' { s(:one_or_more, s(:name, val[0])) }
-  | name     { s(:name, val[0]) }
-  | literal '*' { s(:zero_or_more, s(:literal, val[0])) }
-  | literal '+' { s(:one_or_more, s(:literal, val[0])) }
-  | literal     { s(:literal, val[0]) }
+  : prim '*' { s(:zero_or_more, val[0]) }
+  | prim '+' { s(:one_or_more, val[0]) }
+  | prim
+  ;
+prim
+  : name    { s(:name, val[0]) }
+  | literal { s(:literal, val[0]) }
   ;
 sps: sp* { val };
 sp: '\n' | " " | comment;
