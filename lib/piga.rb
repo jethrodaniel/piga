@@ -6,7 +6,7 @@
 module Piga
   # A minimal `StringScanner` that keeps track of line and column numbers
   #
-  # TODO: move line hanfling out into grammar/lexer grammar
+  # TODO: move line handling out into grammar/lexer grammar
   class Scanner
     attr_reader :line, :column, :string
     attr_accessor :pos
@@ -225,16 +225,6 @@ module Piga
           end
         end
         start == pos ? nil : @scanner.string[start...pos]
-      end
-
-      def _directive
-        if @scanner.current_char == "%"
-          @scanner.advance
-          if n = name
-            return n
-          end
-        end
-        nil
       end
 
       def block

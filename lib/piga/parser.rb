@@ -132,19 +132,25 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __14 = consume_rule(:_directive)
+    if __14 = consume("%")
       val << __14
-      if __15 = consume_star_rule(:sp)
+      if __15 = consume_rule(:name)
         val << __15
-        if __16 = consume_rule(:names)
+        if __16 = consume_star_rule(:sp)
           val << __16
-          if __17 = consume_star_rule(:sp)
+          if __17 = consume_rule(:names)
             val << __17
-            if __18 = consume_star(";")
+            if __18 = consume_star_rule(:sp)
               val << __18
-              return begin
-                       s(:directive, val[0], *val[2]) 
-                     end
+              if __19 = consume_star(";")
+                val << __19
+                return begin
+                         s(:directive, val[1], *val[3]) 
+                       end
+              else
+                reset loc
+                val = []
+              end
             else
               reset loc
               val = []
@@ -165,20 +171,20 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __19 = consume_rule(:_directive)
-      val << __19
-      if __20 = consume_rule(:name)
-        val << __20
-        if __21 = consume_star_rule(:sp)
-          val << __21
-          if __22 = consume_rule(:name)
-            val << __22
-            if __23 = consume_star_rule(:sp)
-              val << __23
-              if __24 = consume_star(";")
-                val << __24
+    if __20 = consume("%")
+      val << __20
+      if __21 = consume_rule(:name)
+        val << __21
+        if __22 = consume_star_rule(:sp)
+          val << __22
+          if __23 = consume_rule(:name)
+            val << __23
+            if __24 = consume_star_rule(:sp)
+              val << __24
+              if __25 = consume_star(";")
+                val << __25
                 return begin
-                         s(:directive, val[0], val[1], val[3]) 
+                         s(:directive, val[1], val[3]) 
                        end
               else
                 reset loc
@@ -212,12 +218,12 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __25 = consume_rule(:name)
-      val << __25
-      if __26 = consume_star_rule(:sp)
-        val << __26
-        if __27 = consume_rule(:names)
-          val << __27
+    if __26 = consume_rule(:name)
+      val << __26
+      if __27 = consume_star_rule(:sp)
+        val << __27
+        if __28 = consume_rule(:names)
+          val << __28
           return begin
                    [val[0], *val[2..-1]] 
                  end
@@ -233,8 +239,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __28 = consume_rule(:name)
-      val << __28
+    if __29 = consume_rule(:name)
+      val << __29
       return begin
                [val[0]] 
              end
@@ -250,12 +256,12 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __29 = consume_rule(:rule)
-      val << __29
-      if __30 = consume_star_rule(:sp)
-        val << __30
-        if __31 = consume_rule(:rules)
-          val << __31
+    if __30 = consume_rule(:rule)
+      val << __30
+      if __31 = consume_star_rule(:sp)
+        val << __31
+        if __32 = consume_rule(:rules)
+          val << __32
           return begin
                    s(:rules, val[0], *val[2]) 
                  end
@@ -271,8 +277,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __32 = consume_rule(:rule)
-      val << __32
+    if __33 = consume_rule(:rule)
+      val << __33
       return begin
                s(:rules, val[0]) 
              end
@@ -288,20 +294,20 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __33 = consume_rule(:name)
-      val << __33
-      if __34 = consume_star_rule(:sp)
-        val << __34
-        if __35 = consume(":")
-          val << __35
-          if __36 = consume_star_rule(:sp)
-            val << __36
-            if __37 = consume_rule(:alternatives)
-              val << __37
-              if __38 = consume_star_rule(:sp)
-                val << __38
-                if __39 = consume(";")
-                  val << __39
+    if __34 = consume_rule(:name)
+      val << __34
+      if __35 = consume_star_rule(:sp)
+        val << __35
+        if __36 = consume(":")
+          val << __36
+          if __37 = consume_star_rule(:sp)
+            val << __37
+            if __38 = consume_rule(:alternatives)
+              val << __38
+              if __39 = consume_star_rule(:sp)
+                val << __39
+                if __40 = consume(";")
+                  val << __40
                   return begin
                            s(:rule, val[0], val[4]) 
                          end
@@ -341,16 +347,16 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __40 = consume_rule(:alternative)
-      val << __40
-      if __41 = consume_star_rule(:sp)
-        val << __41
-        if __42 = consume("|")
-          val << __42
-          if __43 = consume_star_rule(:sp)
-            val << __43
-            if __44 = consume_rule(:alternatives)
-              val << __44
+    if __41 = consume_rule(:alternative)
+      val << __41
+      if __42 = consume_star_rule(:sp)
+        val << __42
+        if __43 = consume("|")
+          val << __43
+          if __44 = consume_star_rule(:sp)
+            val << __44
+            if __45 = consume_rule(:alternatives)
+              val << __45
               return begin
                        s(:alternatives, val[0], *val[4]) 
                      end
@@ -374,8 +380,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __45 = consume_rule(:alternative)
-      val << __45
+    if __46 = consume_rule(:alternative)
+      val << __46
       return begin
                s(:alternatives, val[0]) 
              end
@@ -391,14 +397,14 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __46 = consume_star_rule(:sp)
-      val << __46
-      if __47 = consume_rule(:alt)
-        val << __47
-        if __48 = consume_star_rule(:sp)
-          val << __48
-          if __49 = consume_rule(:block)
-            val << __49
+    if __47 = consume_star_rule(:sp)
+      val << __47
+      if __48 = consume_rule(:alt)
+        val << __48
+        if __49 = consume_star_rule(:sp)
+          val << __49
+          if __50 = consume_rule(:block)
+            val << __50
             return begin
                      s(:alt, s(:items, *val[1]), s(:action, val[3])) 
                    end
@@ -418,12 +424,12 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __50 = consume_star_rule(:sp)
-      val << __50
-      if __51 = consume_rule(:alt)
-        val << __51
-        if __52 = consume_star_rule(:sp)
-          val << __52
+    if __51 = consume_star_rule(:sp)
+      val << __51
+      if __52 = consume_rule(:alt)
+        val << __52
+        if __53 = consume_star_rule(:sp)
+          val << __53
           return begin
                    s(:alt, s(:items, *val[1]), s(:action, "val[0]")) 
                  end
@@ -447,8 +453,8 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __53 = consume_rule(:items)
-      val << __53
+    if __54 = consume_rule(:items)
+      val << __54
       return begin
               val[0]
              end
@@ -464,12 +470,12 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __54 = consume_rule(:item)
-      val << __54
-      if __55 = consume_star_rule(:sp)
-        val << __55
-        if __56 = consume_star_rule(:items)
-          val << __56
+    if __55 = consume_rule(:item)
+      val << __55
+      if __56 = consume_star_rule(:sp)
+        val << __56
+        if __57 = consume_star_rule(:items)
+          val << __57
           return begin
                    [val[0], *val[2..-1]].flatten 
                  end
@@ -493,10 +499,10 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __57 = consume_rule(:name)
-      val << __57
-      if __58 = consume("*")
-        val << __58
+    if __58 = consume_rule(:name)
+      val << __58
+      if __59 = consume("*")
+        val << __59
         return begin
                  s(:zero_or_more, s(:name, val[0])) 
                end
@@ -508,10 +514,10 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __59 = consume_rule(:name)
-      val << __59
-      if __60 = consume("+")
-        val << __60
+    if __60 = consume_rule(:name)
+      val << __60
+      if __61 = consume("+")
+        val << __61
         return begin
                  s(:one_or_more, s(:name, val[0])) 
                end
@@ -523,8 +529,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __61 = consume_rule(:name)
-      val << __61
+    if __62 = consume_rule(:name)
+      val << __62
       return begin
                s(:name, val[0]) 
              end
@@ -532,10 +538,10 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __62 = consume_rule(:literal)
-      val << __62
-      if __63 = consume("*")
-        val << __63
+    if __63 = consume_rule(:literal)
+      val << __63
+      if __64 = consume("*")
+        val << __64
         return begin
                  s(:zero_or_more, s(:literal, val[0])) 
                end
@@ -547,10 +553,10 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __64 = consume_rule(:literal)
-      val << __64
-      if __65 = consume("+")
-        val << __65
+    if __65 = consume_rule(:literal)
+      val << __65
+      if __66 = consume("+")
+        val << __66
         return begin
                  s(:one_or_more, s(:literal, val[0])) 
                end
@@ -562,8 +568,8 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __66 = consume_rule(:literal)
-      val << __66
+    if __67 = consume_rule(:literal)
+      val << __67
       return begin
                s(:literal, val[0]) 
              end
@@ -579,8 +585,8 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __67 = consume_star_rule(:sp)
-      val << __67
+    if __68 = consume_star_rule(:sp)
+      val << __68
       return begin
                val 
              end
@@ -596,16 +602,7 @@ class Piga::Grammar::Parser < Piga::Parser
     loc = pos
     val = []
 
-    if __68 = consume("\n")
-      val << __68
-      return begin
-              val[0]
-             end
-    else
-      reset loc
-      val = []
-    end
-    if __69 = consume(" ")
+    if __69 = consume("\n")
       val << __69
       return begin
               val[0]
@@ -614,8 +611,17 @@ class Piga::Grammar::Parser < Piga::Parser
       reset loc
       val = []
     end
-    if __70 = consume_rule(:comment)
+    if __70 = consume(" ")
       val << __70
+      return begin
+              val[0]
+             end
+    else
+      reset loc
+      val = []
+    end
+    if __71 = consume_rule(:comment)
+      val << __71
       return begin
               val[0]
              end

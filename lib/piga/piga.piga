@@ -36,10 +36,8 @@ directives
   | directive  { s(:directives, val[0]) }
   ;
 directive
-  : _directive sp* names sp* ";"* { s(:directive, val[0], *val[2]) }
-  | _directive name sp* name sp* ";"*  { s(:directive, val[0], val[1], val[3]) }
-  # : "%" name sp* names sp* ";"* { s(:directive, val[1], *val[3].flatten) }
-  # | "%" name sp* name sp* ";"*  { s(:directive, val[1], val[3]) }
+  : "%" name sp* names sp* ";"* { s(:directive, val[1], *val[3]) }
+  | "%" name sp* name sp* ";"*  { s(:directive, val[1], val[3]) }
   ;
 names
   : name sp* names { [val[0], *val[2..-1]] }
