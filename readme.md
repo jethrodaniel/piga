@@ -11,6 +11,7 @@ MIT
 ## references
 
 - [Left-recursion in PEGs](https://arxiv.org/pdf/1207.0443.pdf)
+- [Direct left-recursion in PEGs](https://tratt.net/laurie/research/pubs/html/tratt__direct_left_recursive_parsing_expression_grammars/)
 - [Handling errors in PEGs](https://arxiv.org/pdf/1405.6646.pdf)
 - [Bash's manual](https://www.gnu.org/software/bash/manual/html_node/index.html#SEC_Contents)
 - [Bryan Ford's original PEG paper](https://bford.info/pub/lang/piga.pdf)
@@ -28,6 +29,7 @@ Assorted Ruby parser generators/combinators/lexers/etc
 - [ebnf](https://github.com/dryruby/ebnf)
 - [parslet](https://github.com/kschiess/parslet)
 - [lex](https://github.com/piotrmurach/lex)
+- [rexical](https://github.com/tenderlove/rexical)
 
 # testing
 
