@@ -4,8 +4,6 @@ require "bundler/gem_tasks"
 task :default => "spec:bootstrap"
 
 ASSERT = "spec/assert.rb".freeze
-LEXER_IN  = "lib/piga/lexer.rex".freeze
-LEXER_OUT = "lib/piga/lexer.rb".freeze
 
 # file ASSERT do
 #   `wget -O spec/assert.rb https://raw.githubusercontent.com/mruby/mruby/master/test/assert.rb`
@@ -30,10 +28,4 @@ namespace :spec do
     end
     sh "rm -f v*.rb"
   end
-end
-
-task :lex => LEXER_OUT
-
-file LEXER_OUT => LEXER_IN do |t|
-  sh "bundle exec rex #{t.source} -o #{t.name}"
 end
