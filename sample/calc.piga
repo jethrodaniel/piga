@@ -3,6 +3,8 @@
 # calc> (2 *3/2 + 4) + 3
 # 10
 # ```
+#
+# todo: left-recursion, ala https://github.com/evanphx/kpeg/blob/master/examples/calculator/calculator.kpeg
 
 %name "Calc"
 %prompt "calc> ";
