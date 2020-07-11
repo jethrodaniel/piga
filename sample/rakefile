@@ -1,0 +1,27 @@
+# ```
+# $ rake       # build the examples
+# $ rake clean # remove the generated files
+# $ rake -T    # list all tasks
+# ```
+#
+# For example, `rake calc`.
+
+require "rake/clean"
+
+sources = FileList["*.piga"]
+generated = sources.ext(".rb")
+
+CLEAN << generated
+
+rule ".rb" => ".piga" do |t|
+  sh "piga < #{t.source} > #{t.name}"
+end
+
+generated.each do |g|
+  desc "Run the `#{g}` example"
+  task g.ext("") do
+    sh "ruby #{g} -i"
+  end
+end
+
+task :default => generated
