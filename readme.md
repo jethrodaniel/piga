@@ -19,7 +19,7 @@ More general, tutorial-like links
 
 - [PEG blog posts by Guido](https://medium.com/@gvanrossum_83706/piga-parsing-series-de5d41b2ed60)
 
-Assorted Ruby parser generators/combinators
+Assorted Ruby parser generators/combinators/lexers/etc
 
 - [ruby-ll](https://gitlab.com/yorickpeterse/ruby-ll)
 - [racc](https://github.com/ruby/racc)
@@ -27,6 +27,7 @@ Assorted Ruby parser generators/combinators
 - [rsec](https://github.com/luikore/rsec)
 - [ebnf](https://github.com/dryruby/ebnf)
 - [parslet](https://github.com/kschiess/parslet)
+- [lex](https://github.com/piotrmurach/lex)
 
 # testing
 
