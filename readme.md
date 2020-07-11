@@ -11,7 +11,7 @@ MIT
 ## references
 
 - [Left-recursion in PEGs](https://arxiv.org/pdf/1207.0443.pdf)
-- [Handling errors in PEGs](http://www.inf.puc-rio.br/~roberto/docs/sblp2013-1.pdf)
+- [Handling errors in PEGs](https://arxiv.org/pdf/1405.6646.pdf)
 - [Bash's manual](https://www.gnu.org/software/bash/manual/html_node/index.html#SEC_Contents)
 - [Bryan Ford's original PEG paper](https://bford.info/pub/lang/piga.pdf)
 
