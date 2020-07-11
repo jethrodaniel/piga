@@ -17,10 +17,10 @@ rule ".rb" => ".piga" do |t|
   sh "piga < #{t.source} > #{t.name}"
 end
 
-generated.each do |g|
-  desc "Run the `#{g}` example"
-  task g.ext("") do
-    sh "ruby #{g} -i"
+sources.each do |s|
+  desc "Run the `#{s}` example"
+  task s.ext("") do
+    sh "ruby #{s} -i"
   end
 end
 
